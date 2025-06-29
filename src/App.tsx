@@ -8,6 +8,7 @@ import { registerSW } from 'virtual:pwa-register';
 import CustomerLayout from './layouts/CustomerLayout';
 import VendorLayout from './layouts/VendorLayout';
 import AdminLayout from './layouts/AdminLayout';
+import StaticLayout from './layouts/StaticLayout';
 
 // Customer Pages
 import HomePage from './pages/customer/HomePage';
@@ -26,7 +27,6 @@ import OrderDetailPage from './pages/customer/OrderDetailPage';
 import SettingsPage from './pages/customer/SettingsPage';
 import FlashSalesPage from './pages/customer/FlashSalesPage';
 import DealsPage from './pages/customer/DealsPage';
-import ContactPage from './pages/static/ContactPage';
 import TrackOrderPage from './pages/customer/TrackOrderPage';
 
 // Auth Pages
@@ -58,6 +58,7 @@ import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 
 // Static Pages
 import AboutPage from './pages/static/AboutPage';
+import ContactPage from './pages/static/ContactPage';
 import TermsPage from './pages/static/TermsPage';
 import PrivacyPage from './pages/static/PrivacyPage';
 import FAQPage from './pages/static/FAQPage';
@@ -68,6 +69,9 @@ import AppDownloadPage from './pages/static/AppDownloadPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import VendorProtectedRoute from './components/auth/VendorProtectedRoute';
 import AdminProtectedRoute from './components/auth/AdminProtectedRoute';
+
+// Scroll to Top Component
+import ScrollToTop from './components/ui/ScrollToTop';
 
 function App() {
   const { initialize } = useAuthStore();
@@ -88,6 +92,7 @@ function App() {
 
   return (
     <AnimatePresence mode="wait">
+      <ScrollToTop />
       <Routes>
         {/* Customer Routes */}
         <Route path="/" element={<CustomerLayout />}>
@@ -99,7 +104,6 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="flash-sales" element={<FlashSalesPage />} />
           <Route path="deals-of-the-day" element={<DealsPage />} />
-          <Route path="contact" element={<ContactPage />} />
           <Route path="track-order" element={<TrackOrderPage />} />
           
           {/* Protected Customer Routes */}
@@ -141,10 +145,23 @@ function App() {
           } />
         </Route>
 
-        {/* Auth Routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        {/* Auth Routes with Static Layout */}
+        <Route element={<StaticLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        </Route>
+
+        {/* Static Pages with Static Layout */}
+        <Route element={<StaticLayout />}>
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/newsletter" element={<NewsletterPage />} />
+          <Route path="/app-download" element={<AppDownloadPage />} />
+        </Route>
 
         {/* Vendor Routes */}
         <Route path="/sell-on-shopzero" element={<SellOnShopzeroPage />} />
@@ -231,14 +248,6 @@ function App() {
             </AdminProtectedRoute>
           } />
         </Route>
-
-        {/* Static Pages */}
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/newsletter" element={<NewsletterPage />} />
-        <Route path="/app-download" element={<AppDownloadPage />} />
       </Routes>
     </AnimatePresence>
   );
