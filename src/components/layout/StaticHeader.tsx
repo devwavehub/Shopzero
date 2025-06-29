@@ -132,6 +132,14 @@ const StaticHeader: React.FC = () => {
                     >
                       Mobile App
                     </Link>
+                    <hr className="my-2" />
+                    <Link
+                      to="/admin"
+                      className="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 rounded opacity-50 hover:opacity-100"
+                      title="Admin Access"
+                    >
+                      ******
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -173,15 +181,6 @@ const StaticHeader: React.FC = () => {
                   </Link>
                 </div>
               )}
-
-              {/* Admin Link (Hidden) */}
-              <Link
-                to="/admin"
-                className="hidden text-gray-400 hover:text-red-500 transition-colors"
-                title="Admin Access"
-              >
-                <Shield className="h-5 w-5" />
-              </Link>
 
               {/* Mobile Menu Button */}
               <button
@@ -245,6 +244,13 @@ const StaticHeader: React.FC = () => {
                   >
                     Mobile App
                   </Link>
+                  <Link
+                    to="/admin"
+                    className="block py-2 px-4 text-gray-500 hover:bg-gray-50 rounded-lg opacity-50"
+                    title="Admin Access"
+                  >
+                    ****** (Admin)
+                  </Link>
                 </div>
 
                 {/* Mobile User Actions */}
@@ -297,9 +303,10 @@ const StaticHeader: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 bg-primary-500 text-white p-3 rounded-full shadow-lg hover:bg-primary-600 transition-colors z-40"
+            className="fixed bottom-6 right-6 bg-primary-500 text-white p-3 rounded-full shadow-lg hover:bg-primary-600 transition-colors z-40 hover:shadow-xl"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            title="Scroll to top"
           >
             <ArrowUp className="h-5 w-5" />
           </motion.button>
