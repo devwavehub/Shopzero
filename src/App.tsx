@@ -65,6 +65,9 @@ import FAQPage from './pages/static/FAQPage';
 import NewsletterPage from './pages/static/NewsletterPage';
 import AppDownloadPage from './pages/static/AppDownloadPage';
 
+// Error Pages
+import NotFoundPage from './pages/NotFoundPage';
+
 // Protected Route Components
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import VendorProtectedRoute from './components/auth/VendorProtectedRoute';
@@ -248,6 +251,9 @@ function App() {
             </AdminProtectedRoute>
           } />
         </Route>
+
+        {/* 404 Error Page - Must be last */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AnimatePresence>
   );
