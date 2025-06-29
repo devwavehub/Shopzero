@@ -1,48 +1,23 @@
 /*
-  # Create storage bucket for file uploads
+  # Storage Policies for File Uploads
 
-  1. Storage Setup
-    - Create 'uploads' bucket for general file storage
-    - Create 'product-images' bucket specifically for product images
-    - Create 'vendor-assets' bucket for vendor logos and banners
+  1. Policies for product-images bucket
+    - Public read access for all product images
+    - Authenticated users can upload to their own folder
+    - Users can manage their own files
 
-  2. Security Policies
-    - Allow authenticated users to upload files
-    - Allow public read access to uploaded files
-    - Restrict file types and sizes
-    - Allow users to delete their own uploads
+  2. Policies for vendor-assets bucket
+    - Public read access for vendor logos/banners
+    - Authenticated users can upload to their own folder
+    - Users can manage their own files
 
-  3. Bucket Configuration
-    - Set appropriate file size limits
-    - Configure allowed file types
-    - Enable public access for product images
+  3. Policies for uploads bucket (if created)
+    - Private access - users can only see their own files
+    - Authenticated users can upload to their own folder
+    - Users can manage their own files
+
+  Note: Buckets must be created manually in Supabase Dashboard first
 */
-
--- Create storage buckets
-INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-VALUES 
-  (
-    'product-images',
-    'product-images',
-    true,
-    5242880, -- 5MB limit
-    ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-  ),
-  (
-    'vendor-assets',
-    'vendor-assets', 
-    true,
-    3145728, -- 3MB limit
-    ARRAY['image/jpeg', 'image/png', 'image/webp']
-  ),
-  (
-    'uploads',
-    'uploads',
-    false,
-    10485760, -- 10MB limit
-    ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf', 'text/plain']
-  )
-ON CONFLICT (id) DO NOTHING;
 
 -- Storage policies for product-images bucket
 CREATE POLICY "Anyone can view product images"
@@ -102,7 +77,7 @@ CREATE POLICY "Users can delete their own vendor assets"
     AND (storage.foldername(name))[1] = auth.uid()::text
   );
 
--- Storage policies for general uploads bucket
+-- Storage policies for general uploads bucket (optional)
 CREATE POLICY "Users can view their own uploads"
   ON storage.objects FOR SELECT
   TO authenticated
@@ -134,6 +109,3 @@ CREATE POLICY "Users can delete their own uploads"
     bucket_id = 'uploads' 
     AND (storage.foldername(name))[1] = auth.uid()::text
   );
-
--- Enable RLS on storage.objects (should already be enabled, but ensuring it)
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
